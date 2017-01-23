@@ -19,7 +19,7 @@ import java.util.List;
  * Created by Андрей on 10.01.2017.
  */
 
-public class FirstServlet extends HttpServlet {
+public class MainServlet extends HttpServlet {
 
     private List<City> cities = new ArrayList();
     private City cityEdit = new City();
