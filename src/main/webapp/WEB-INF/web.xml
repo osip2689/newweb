@@ -14,15 +14,6 @@
     <url-pattern>/abs</url-pattern>
   </servlet-mapping>
 
-    <servlet>
-        <servlet-name>EditServlet</servlet-name>
-        <servlet-class>servlets.EditServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EditServlet</servlet-name>
-        <url-pattern>/edit</url-pattern>
-    </servlet-mapping>
-
     <resource-ref>
         <description>DB Connection</description>
         <res-ref-name>jdbc/data</res-ref-name>

@@ -103,11 +103,7 @@ public class FirstServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-       /* if ((req.getParameter("Edit") != null)||
-                (req.getParameter("Add") != null)||
-                (req.getParameter("Delete") != null)) {*/
             processRequest(req, resp);
-       // }
     }
 
     @Override
