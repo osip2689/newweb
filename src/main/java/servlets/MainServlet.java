@@ -23,31 +23,34 @@ public class MainServlet extends HttpServlet {
 
     private List<City> cities = new ArrayList();
     private City cityEdit = new City();
-    private List<String> filters = new ArrayList<String>();
-    {
-        filters.add("defaultFilter");
-        filters.add("idFilter");
-        filters.add("cityNameFilter");
-        filters.add("regionFilter");
-        filters.add("popupFilter");
-        filters.add("foundFilter");
-    }
+    private String currentFilter = "";
+    private String currentMask = "";
 
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         resp.setContentType("text/html; charset=UTF-8");
         req.setCharacterEncoding("UTF-8");
 
-        try {
-            cities = Manager.getInstance().getAllCities();
-        } catch (SQLException sql_e) {
-            throw new IOException(sql_e.getMessage());
+        if (req.getParameter("filter") != null) {
+            try {
+                filterCheck(req);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                cities = filtration();
+            } catch (SQLException sql_e) {
+                throw new IOException(sql_e.getMessage());
+            }
         }
 
         if (req.getParameter("Add") != null) {
             try {
                 insertCity(req);
-                cities = Manager.getInstance().getAllCities();
+                cities = filtration();
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (ParseException e) {
@@ -58,7 +61,7 @@ public class MainServlet extends HttpServlet {
         if (req.getParameter("Delete") != null) {
             try {
                 deleteCity(req);
-                cities = Manager.getInstance().getAllCities();
+                cities = filtration();
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (ParseException e) {
@@ -79,7 +82,7 @@ public class MainServlet extends HttpServlet {
         if ((req.getParameter("cityName") != null) && (req.getParameter("check") == null)) {
             try {
                 updateCity(req);
-                cities = Manager.getInstance().getAllCities();
+                cities = filtration();
 
                 for (City c : cities) {
                     if (c.getId() == cityEdit.getId()) {
@@ -103,7 +106,7 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-            processRequest(req, resp);
+        processRequest(req, resp);
     }
 
     @Override
@@ -149,5 +152,41 @@ public class MainServlet extends HttpServlet {
     }
 
     private void filterCheck(HttpServletRequest req) throws SQLException, ParseException {
+
+        String filter = req.getParameter("filter");
+        String mask = req.getParameter("mask");
+
+        if ((filter.equals("found")) && (!mask.equals(""))) {
+            cities = Manager.getInstance().filtration(filter, mask);
+            currentFilter = filter;
+            currentMask = mask;
+        } else if ((filter.equals("popup")) && (!mask.equals(""))) {
+            cities = Manager.getInstance().filtration(filter, mask);
+            currentFilter = filter;
+            currentMask = mask;
+        } else if ((filter.equals("region")) && (!mask.equals(""))) {
+            cities = Manager.getInstance().filtration(filter, mask);
+            currentFilter = filter;
+            currentMask = mask;
+        } else if ((filter.equals("cityName")) && (!mask.equals(""))) {
+            cities = Manager.getInstance().filtration(filter, mask);
+            currentFilter = filter;
+            currentMask = mask;
+        } else if ((filter.equals("id")) && (!mask.equals(""))) {
+            cities = Manager.getInstance().filtration(filter, mask);
+            currentFilter = filter;
+            currentMask = mask;
+        } else {
+            cities = Manager.getInstance().getCities();
+            currentFilter = "";
+            currentMask = "";
+        }
+    }
+
+    private List<City> filtration() throws SQLException {
+        if (!(currentFilter.equals("")) && !(currentMask.equals(""))) {
+            return Manager.getInstance().filtration(currentFilter, currentMask);
+        } else
+            return Manager.getInstance().getCities();
     }
 }

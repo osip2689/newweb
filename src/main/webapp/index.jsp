@@ -8,13 +8,13 @@
 <h1>Города РФ</h1>
 <hr>
 <form action="/abs" method="GET">
-    <select name="filter" size="1" value="regionFilter">
+    <select name="filter" size="1">
         <option value="defaultFilter">Выберите фильтр</option>
-        <option value="idFilter">Номер</option>
-        <option value="cityNameFilter">Название</option>
-        <option value="regionFilter">Регион</option>
-        <option value="popupFilter">Население</option>
-        <option value="foundFilter">Основан</option>
+        <option value="id">Номер</option>
+        <option value="cityName">Название</option>
+        <option value="region">Регион</option>
+        <option value="popup">Население</option>
+        <option value="found">Основан</option>
     </select>
     <input type="text" value="" name="mask">
     <input type="submit" value="Show"/>

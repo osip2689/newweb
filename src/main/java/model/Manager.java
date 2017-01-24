@@ -35,7 +35,7 @@ public class Manager {
         return instance;
     }
 
-    public List<City> getAllCities() throws SQLException {
+    public List<City> getCities() throws SQLException {
         List<City> cities = new ArrayList();
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM cities");
@@ -75,6 +75,21 @@ public class Manager {
         stmt.setInt(4, city.getFound());
         stmt.setInt(5, city.getId());
         stmt.execute();
+    }
+
+    public List<City> filtration(String filter, String mask) throws SQLException {
+        List<City> cities = new ArrayList();
+        Statement stmt = con.createStatement();
+        String s = "SELECT * FROM cities WHERE " +
+                filter + " LIKE '%"+ mask + "%';";
+        ResultSet rs = stmt.executeQuery(s);
+        while (rs.next()) {
+            City st = new City(rs);
+            cities.add(st);
+        }
+        rs.close();
+        stmt.close();
+        return cities;
     }
 }
 
