@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * Created by Андрей on 10.01.2017.
- */
 
 public class MainServlet extends HttpServlet {
 
